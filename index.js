@@ -2,134 +2,14 @@ const express = require('express'),
   morgan = require('morgan'),
   app = express(),
   bodyParser = require('body-parser'),
-  uuid = require('uuid');
+  uuid = require('uuid'),
+  mongoose = require('mongoose'),
+  Models = require('./models.js'),
+  Movies = Models.Movie,
+  Users = Models.User;
 
-//List of movies//
-let Movies = [{
-    title: 'Alien',
-    director: 'Ridley Scott',
-    year: '1979',
-    genre: 'Science-Fiction'
-  },
-  {
-    title: 'Predator',
-    director: 'John McTiernan',
-    year: '1987',
-    genre: 'Science-Fiction'
-  },
-  {
-    title: 'Se7en',
-    director: 'David Fincher',
-    year: '1995',
-    genre: 'Thriller'
-  },
-  {
-    title: 'Coherence',
-    director: 'James Ward Byrkit',
-    year: '2013',
-    genre: 'Science-Fiction'
-  },
-  {
-    title: 'Mad Max: Fury Road',
-    director: 'George Miller',
-    year: '2015',
-    genre: 'Post-Apocalyptic'
-  },
-  {
-    title: '28 Days Later',
-    director: 'Danny Boyle',
-    year: '2002',
-    genre: 'Post-Apocalyptic'
-  },
-  {
-    title: 'The Thing',
-    director: 'John Carpenter',
-    year: '1982',
-    genre: 'Science-Fiction'
-  },
-  {
-    title: 'The Raid',
-    director: 'Gareth Evans',
-    year: '2011',
-    genre: 'Action'
-  },
-  {
-    title: 'Drive',
-    director: 'Nicolas Winding Refn',
-    year: '2011',
-    genre: 'Thriller'
-  },
-  {
-    title: 'Bone Tomahawk',
-    director: 'S. Craig Zahler',
-    year: '2015',
-    genre: 'Horror'
-  }
-]
-
-//List of directors//
-let Directors = [{
-    name: 'Ridley Scott',
-    born: '1937'
-  },
-  {
-    name: 'John McTiernan',
-    born: '1951'
-  },
-  {
-    name: 'David Fincher',
-    born: '1962'
-  },
-  {
-    name: 'James Ward Byrkit',
-    born: '?'
-  },
-  {
-    name: 'George Miller',
-    born: '1945'
-  },
-  {
-    name: 'Danny Boyle',
-    born: '1956'
-  },
-  {
-    name: 'John Carpenter',
-    born: '1948'
-  },
-  {
-    name: 'Gareth Evans',
-    born: '1980'
-  },
-  {
-    name: 'Nicolas Winding Refn',
-    born: '1970'
-  },
-  {
-    name: 'S. Craig Zahler',
-    born: '1973'
-  }
-]
-
-let Genres = [{
-    name: 'Horror',
-    description: 'Films that seeks to elicit fear for entertainment purposes'
-  }
-]
-
-let Users = [{
-    id: '1',
-    username: 'User1',
-  }
-]
-
-let Favorites = [{
-    title: 'The Thing',
-    director: 'John Carpenter',
-    year: '1982',
-    genre: 'Science-Fiction'
-  }
-]
-
+//Connect Mongoose to database//
+mongoose.connect('mongodb://localhost:27017/EdgeOfUmbra', {useNewUrlParser: true});
 //Body-parser//
 app.use(bodyParser.json());
 //File retrieving from public folder//
@@ -138,8 +18,40 @@ app.use(express.static('public'));
 app.use(morgan('common'));
 
 //Get list of movies//
-app.get('/movies', (req, res) => {
-  res.json(Movies)
+app.get('/movies', function(req, res) {
+  Movies.find()
+  .then(function(movies) {res.status(201).json(movies)})
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+//Get movie info//
+app.get('/movies/:Title', function(req, res) {
+  Movies.findOne({Title: req.params.Title})
+  .then(function(movie) {res.json(movie)})
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+//Get list of users//
+app.get('/users', function(req, res) {
+  Users.find()
+  .then(function(users) {res.status(201).json(users)})
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+//Get a user by username//
+app.get('/users/:Username', function(req, res) {
+  Users.findOne({Username: req.params.Username})
+  .then(function(user) {res.json(user)})
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
 });
 //Get list of genres//
 app.get('/genres', (req, res) => {
@@ -148,11 +60,6 @@ app.get('/genres', (req, res) => {
 //Get list of directors//
 app.get('/directors', (req, res) => {
   res.json(Directors)
-});
-//Get movie info//
-app.get('/movies/:title', (req, res) => {
-  res.json(Movies.find((movie) =>
-  {return movie.title === req.params.title}));
 });
 //Get genre info//
 app.get('/genres/:name', (req, res) => {
@@ -166,56 +73,89 @@ app.get('/directors/:name', (req, res) => {
 });
 
 //Create user//
-app.post('/users', (req, res) => {
-  let newUser = req.body;
-  if (!newUser.username) {
-    const message = 'Missing name in request body';
-    res.status(400).send(message);
-  } else {
-    newUser.id = uuid.v4();
-    Users.push(newUser);
-    res.status(201).send(newUser);
-  }
+app.post('/users', function(req, res) {
+  Users.findOne({Username: req.body.Username})
+  .then(function(user) {
+    if (user) {
+      return res.status(400).send("Username " + req.body.Username + " is already in use");
+    } else {
+      Users.create({
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      })
+      .then(function(user) {res.status(201).json(user)})
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      })
+    }
+  }).catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
 });
 //Update user info//
-app.put('/users/:username', (req, res) => {
-    res.status(201).send('User information updated');
+app.put('/users/:Username', function(req, res) {
+  Users.findOneAndUpdate({Username: req.params.Username}, {$set : {
+    Username : req.body.Username,
+    Password : req.body.Password,
+    Email : req.body.Email,
+    Birthday : req.body.Birthday
+  }},
+  {new : true},
+  .then(function(updatedUser) {res.json(updatedUser)})
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  })
 });
-//Delete user//
-app.delete('/users/:id', (req, res) => {
-  let user = Users.find((user) => { return user.id === req.params.id});
-  if (user) {
-    Users = Users.filter(function(obj) { return obj.id !== req.params.id});
-    res.status(201).send('User ID:'+ req.params.id + ' has been deleted.')
-  }
+//Delete user by username//
+app.delete('/users/:Username', function(req, res) {
+  Users.findOneAndRemove({Username: req.params.Username})
+  .then(function(user) {
+    if (!user) {res.status(400).send("User " + req.params.Username + " was not found");
+    } else {res.status(200).send("User " + req.params.Username + " was deleted.");}
+  })
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
 });
 
 //Add favorite movie//
-app.post('/users/:username/favorites', (req, res) => {
-  let newFavorite = req.body;
-  if (!newFavorite.title) {
-    const message = 'Missing movie title in request body';
-    res.status(400).send(message);
-  } else {
-    newFavorite.id = uuid.v4();
-    Favorites.push(newFavorite);
-    res.status(201).send(newFavorite);
-  }
+app.post('/users/:Username/Movies/:MovieID', function(req, res) {
+  Users.findOneAndUpdate({Username : req.params.Username}, {
+    $push : {FavoriteMovies : req.params.MovieID}
+  },
+  { new : true },
+  function(err, updatedUser) {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    } else {
+      res.json(updatedUser)
+    }
+  })
 });
 //Remove favorite movie//
-app.delete('/users/:username/favorites/:title', (req, res) => {
-  let favorite = Favorites.find((favorite) =>
-    {return favorite.title === req.params.title});
-  if (favorite) {
-    Favorites.filter(function(obj) {return obj.title !== req.params.title});
-    res.status(201).send(req.params.title + ' was removed from favorites.');
-  }
+app.delete('/users/:Username/favorites/:Title', function(req, res) {
+  Users.findOneAndRemove({Username: req.params.Username})
+  .then(function(favorite) {
+    if (!favorite) {res.status(400).send("User " + req.params.Username + " was not found");
+    } else {res.status(200).send("User " + req.params.Username + " was deleted.");}
+  })
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
 });
 
 //Error catching//
 app.use(function (err, req, res, next) {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send("Something broke!");
 });
 
 app.listen(8080);
