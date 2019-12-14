@@ -2,11 +2,12 @@ const express = require('express'),
   morgan = require('morgan'),
   app = express(),
   bodyParser = require('body-parser'),
-  uuid = require('uuid'),
   mongoose = require('mongoose'),
   Models = require('./models.js'),
   Movies = Models.Movie,
-  Users = Models.User;
+  Users = Models.User,
+  Genres = Models.Genre,
+  Directors = Models.Director;
 
 //Connect Mongoose to database//
 mongoose.connect('mongodb://localhost:27017/EdgeOfUmbra', {useNewUrlParser: true});
@@ -35,6 +36,42 @@ app.get('/movies/:Title', function(req, res) {
     res.status(500).send("Error: " + err);
   });
 });
+//Get list of genres//
+app.get('/genres', function(req, res) {
+  Genres.find()
+  .then(function(genres) {res.status(201).json(genres)})
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+//Get genre info by name//
+app.get('/genres/:Name', function(req, res) {
+  Genres.findOne({Name: req.params.Name})
+  .then(function(genre) {res.json(genre)})
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+//Get list of directors//
+app.get('/directors', function(req, res) {
+  Directors.find()
+  .then(function(directors) {res.status(201).json(directors)})
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+//Get director by name//
+app.get('/directors/:Name', function(req, res) {
+  Directors.findOne({Name: req.params.Name})
+  .then(function(director) {res.json(director)})
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
 //Get list of users//
 app.get('/users', function(req, res) {
   Users.find()
@@ -44,7 +81,7 @@ app.get('/users', function(req, res) {
     res.status(500).send("Error: " + err);
   });
 });
-//Get a user by username//
+//Get user info by username//
 app.get('/users/:Username', function(req, res) {
   Users.findOne({Username: req.params.Username})
   .then(function(user) {res.json(user)})
@@ -52,24 +89,6 @@ app.get('/users/:Username', function(req, res) {
     console.error(err);
     res.status(500).send("Error: " + err);
   });
-});
-//Get list of genres//
-app.get('/genres', (req, res) => {
-  res.json(Genres)
-});
-//Get list of directors//
-app.get('/directors', (req, res) => {
-  res.json(Directors)
-});
-//Get genre info//
-app.get('/genres/:name', (req, res) => {
-  res.json(Genres.find((genre) =>
-  {return genre.name === req.params.name}));
-});
-//Get director info//
-app.get('/directors/:name', (req, res) => {
-  res.json(Directors.find((director) =>
-  {return director.name === req.params.name}));
 });
 
 //Create user//
@@ -104,12 +123,12 @@ app.put('/users/:Username', function(req, res) {
     Email : req.body.Email,
     Birthday : req.body.Birthday
   }},
-  {new : true},
+  {new : true}
   .then(function(updatedUser) {res.json(updatedUser)})
   .catch(function(err) {
     console.error(err);
     res.status(500).send("Error: " + err);
-  })
+  }))
 });
 //Delete user by username//
 app.delete('/users/:Username', function(req, res) {
