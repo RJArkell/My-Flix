@@ -34,12 +34,12 @@
           <td>GET</td>
           <td>None</td>
           <td>
-            A JSON object holding data about a single movie containing a title, genre, director, and release year.
+            A JSON object holding data about a single movie containing a title, genre, director, and description.
             <p>{
-              title: 'Alien',
-              director: 'Ridley Scott',
-              year: '1979',
-              genre: 'Science-Fiction'
+              Title: 'Alien',
+              Description: 'In deep space, the crew of the commercial starship Nostromo is awakened from thier cryo-sleep capsules halfway through their journey home to investigate a distress call from an alien vessel.'
+              Director: 'Ridley Scott',
+              Genre: 'Science-Fiction'
             }</p>
           </td>
         </tr>
@@ -60,8 +60,8 @@
           <td>
             A JSON object holding data about a single genre containing a name and description:
             <p>{
-              name: 'Horror',
-              description: 'Films that seeks to elicit fear for entertainment purposes'
+              Name: 'Horror',
+              Description: 'Films that seeks to elicit fear for entertainment purposes'
             }</p>
           </td>
         </tr>
@@ -80,10 +80,11 @@
           <td>GET</td>
           <td>None</td>
           <td>
-            A JSON object holding data about a single genre containing a name and D.O.B.:
+            A JSON object holding data about a single genre containing a name, biography, and D.O.B.:
             <p>{
-              name: 'Ridley Scott',
-              born: '1937'
+              Name: 'Ridley Scott',
+              Biography: 'Ridley Scott is a British Film director and producer whose movies are acclaimed for their visual style and rich details.'
+              Born: '1937'
             }</p>
           </td>
         </tr>
@@ -97,6 +98,7 @@
               Username: "User",
               Password: "password",
               Email: "user@gmail.com"
+              Birthday: "yyyy-mm-dd"
             }</p>
           </td>
           <td>
@@ -106,6 +108,7 @@
               Username: "User",
               Password: "password",
               Email: "user@gmail.com"
+              Birthday: "yyyy-mm-dd"
             }</p>
           </td>
         </tr>
@@ -119,6 +122,7 @@
               Username: "User",
               Password: "password",
               Email: "user@gmail.com"
+              Birthday: "yyyy-mm-dd"
             }</p>
           </td>
           <td>
@@ -127,7 +131,7 @@
         </tr>
         <tr>
           <td>Add movies to user's list of favorites</td>
-          <td>/users/[username]/favorites/[title]</td>
+          <td>/users/[username]/FavoriteMovies/[MovieID]</td>
           <td>POST</td>
           <td>None</td>
           <td>
@@ -136,7 +140,7 @@
         </tr>
         <tr>
           <td>Remove movies from user's list of favorites</td>
-          <td>/users/[username]/favorites/[title]</td>
+          <td>/users/[username]/FavoriteMovies/[MovieID]</td>
           <td>DELETE</td>
           <td>None</td>
           <td>

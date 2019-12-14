@@ -10,7 +10,7 @@ const express = require('express'),
   Directors = Models.Director;
 
 //Connect Mongoose to database//
-mongoose.connect('mongodb://localhost:27017/EdgeOfUmbra', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/EdgeOfUmbra', {useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
 //Body-parser//
 app.use(bodyParser.json());
 //File retrieving from public folder//
@@ -118,17 +118,20 @@ app.post('/users', function(req, res) {
 //Update user info//
 app.put('/users/:Username', function(req, res) {
   Users.findOneAndUpdate({Username: req.params.Username}, {$set : {
-    Username : req.body.Username,
-    Password : req.body.Password,
-    Email : req.body.Email,
-    Birthday : req.body.Birthday
+    Username: req.body.Username,
+    Password: req.body.Password,
+    Email: req.body.Email,
+    Birthday: req.body.Birthday
   }},
-  {new : true}
-  .then(function(updatedUser) {res.json(updatedUser)})
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send("Error: " + err);
-  }))
+  {new: true},
+  function(err, updatedUser) {
+    if(err) {
+      console.error(err);
+      res.status(500).send("Error: " +err);
+    } else {
+      res.json(updatedUser)
+    }
+  })
 });
 //Delete user by username//
 app.delete('/users/:Username', function(req, res) {
@@ -144,11 +147,11 @@ app.delete('/users/:Username', function(req, res) {
 });
 
 //Add favorite movie//
-app.post('/users/:Username/Movies/:MovieID', function(req, res) {
-  Users.findOneAndUpdate({Username : req.params.Username}, {
-    $push : {FavoriteMovies : req.params.MovieID}
+app.post('/users/:Username/FavoriteMovies/:MovieID', function(req, res) {
+  Users.findOneAndUpdate({Username: req.params.Username}, {
+    $push: {FavoriteMovies: req.params.MovieID}
   },
-  { new : true },
+  {new: true},
   function(err, updatedUser) {
     if (err) {
       console.error(err);
@@ -159,16 +162,19 @@ app.post('/users/:Username/Movies/:MovieID', function(req, res) {
   })
 });
 //Remove favorite movie//
-app.delete('/users/:Username/favorites/:Title', function(req, res) {
-  Users.findOneAndRemove({Username: req.params.Username})
-  .then(function(favorite) {
-    if (!favorite) {res.status(400).send("User " + req.params.Username + " was not found");
-    } else {res.status(200).send("User " + req.params.Username + " was deleted.");}
+app.delete('/users/:Username/FavoriteMovies/:MovieID', function(req, res) {
+  Users.findOneAndUpdate({Username: req.params.Username}, {
+    $pull: {FavoriteMovies: req.params.MovieID}
+  },
+  {new: true},
+  function(err, updatedUser) {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    } else {
+      res.json(updatedUser)
+    }
   })
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send("Error: " + err);
-  });
 });
 
 //Error catching//
