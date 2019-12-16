@@ -32,7 +32,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), function(re
   });
 });
 //Get movie info//
-app.get('/movies/:Title', function(req, res) {
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), function(req, res) {
   Movies.findOne({Title: req.params.Title})
   .then(function(movie) {res.json(movie)})
   .catch(function(err) {
@@ -41,7 +41,7 @@ app.get('/movies/:Title', function(req, res) {
   });
 });
 //Get list of genres//
-app.get('/genres', function(req, res) {
+app.get('/genres', passport.authenticate('jwt', { session: false }), function(req, res) {
   Genres.find()
   .then(function(genres) {res.status(201).json(genres)})
   .catch(function(err) {
@@ -50,7 +50,7 @@ app.get('/genres', function(req, res) {
   });
 });
 //Get genre info by name//
-app.get('/genres/:Name', function(req, res) {
+app.get('/genres/:Name', passport.authenticate('jwt', { session: false }), function(req, res) {
   Genres.findOne({Name: req.params.Name})
   .then(function(genre) {res.json(genre)})
   .catch(function(err) {
@@ -59,7 +59,7 @@ app.get('/genres/:Name', function(req, res) {
   });
 });
 //Get list of directors//
-app.get('/directors', function(req, res) {
+app.get('/directors', passport.authenticate('jwt', { session: false }), function(req, res) {
   Directors.find()
   .then(function(directors) {res.status(201).json(directors)})
   .catch(function(err) {
@@ -68,7 +68,7 @@ app.get('/directors', function(req, res) {
   });
 });
 //Get director by name//
-app.get('/directors/:Name', function(req, res) {
+app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), function(req, res) {
   Directors.findOne({Name: req.params.Name})
   .then(function(director) {res.json(director)})
   .catch(function(err) {
@@ -77,7 +77,7 @@ app.get('/directors/:Name', function(req, res) {
   });
 });
 //Get list of users//
-app.get('/users', function(req, res) {
+app.get('/users', passport.authenticate('jwt', { session: false }), function(req, res) {
   Users.find()
   .then(function(users) {res.status(201).json(users)})
   .catch(function(err) {
@@ -86,7 +86,7 @@ app.get('/users', function(req, res) {
   });
 });
 //Get user info by username//
-app.get('/users/:Username', function(req, res) {
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), function(req, res) {
   Users.findOne({Username: req.params.Username})
   .then(function(user) {res.json(user)})
   .catch(function(err) {
@@ -120,7 +120,7 @@ app.post('/users', function(req, res) {
   });
 });
 //Update user info//
-app.put('/users/:Username', function(req, res) {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), function(req, res) {
   Users.findOneAndUpdate({Username: req.params.Username}, {$set : {
     Username: req.body.Username,
     Password: req.body.Password,
@@ -138,7 +138,7 @@ app.put('/users/:Username', function(req, res) {
   })
 });
 //Delete user by username//
-app.delete('/users/:Username', function(req, res) {
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), function(req, res) {
   Users.findOneAndRemove({Username: req.params.Username})
   .then(function(user) {
     if (!user) {res.status(400).send("User " + req.params.Username + " was not found");
@@ -151,7 +151,7 @@ app.delete('/users/:Username', function(req, res) {
 });
 
 //Add favorite movie//
-app.post('/users/:Username/FavoriteMovies/:MovieID', function(req, res) {
+app.post('/users/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), function(req, res) {
   Users.findOneAndUpdate({Username: req.params.Username}, {
     $push: {FavoriteMovies: req.params.MovieID}
   },
@@ -166,7 +166,7 @@ app.post('/users/:Username/FavoriteMovies/:MovieID', function(req, res) {
   })
 });
 //Remove favorite movie//
-app.delete('/users/:Username/FavoriteMovies/:MovieID', function(req, res) {
+app.delete('/users/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), function(req, res) {
   Users.findOneAndUpdate({Username: req.params.Username}, {
     $pull: {FavoriteMovies: req.params.MovieID}
   },
