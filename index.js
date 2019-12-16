@@ -7,7 +7,9 @@ const express = require('express'),
   Movies = Models.Movie,
   Users = Models.User,
   Genres = Models.Genre,
-  Directors = Models.Director;
+  Directors = Models.Director,
+  passport = require('passport');
+  require('./passport');
 
 //Connect Mongoose to database//
 mongoose.connect('mongodb://localhost:27017/EdgeOfUmbra', {useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
@@ -17,9 +19,11 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 //Info logging//
 app.use(morgan('common'));
+//Authentication//
+var auth = require('./auth')(app);
 
 //Get list of movies//
-app.get('/movies', function(req, res) {
+app.get('/movies', passport.authenticate('jwt', { session: false }), function(req, res) {
   Movies.find()
   .then(function(movies) {res.status(201).json(movies)})
   .catch(function(err) {
