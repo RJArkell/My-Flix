@@ -30,6 +30,10 @@ app.use(cors());
 //Express-Validator//
 const {check, validationResult} = require('express-validator');
 
+app.get("/", (req, res) =>
+  {res.send("Edge of Umbra: A database of Science-Fiction, Horror, and Thriller movies");
+});
+
 //Get list of movies//
 app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.find()
