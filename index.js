@@ -15,9 +15,8 @@ const Movies = Models.Movie,
   Directors = Models.Director;
 
 //Connect Mongoose to database//
-mongoose.connect('mongodb://localhost:27017/EdgeOfUmbra',
-  {useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true}
-);
+//mongoose.connect('mongodb://localhost:27017/EdgeOfUmbra', {useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://Admin:<password>@arnketel-69akm.azure.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
 //Body-parser//
 app.use(bodyParser.json());
 //File retrieving from public folder//

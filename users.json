@@ -1,0 +1,4 @@
+{"_id":"1002","Username":"User3","Password":"password3","Email":"user3@gmail.com","Birthday":{"$date":"1980-03-12T00:00:00.000Z"},"FavoriteMovies":[100007.0,100008.0,100009.0]}
+{"_id":"1003","Username":"User4","Password":"password4","Email":"user4@gmail.com","Birthday":{"$date":"1985-04-13T00:00:00.000Z"},"FavoriteMovies":[100010.0,100011.0,100001.0]}
+{"_id":{"$oid":"5df56a1ee7432405373e7504"},"FavoriteMovies":[],"Username":"User1","Password":"password1","Email":"user@gmail.com","Birthday":{"$date":"1970-01-21T00:00:00.000Z"},"__v":0}
+{"_id":{"$oid":"5df6c9fcfe65d70276a110fa"},"FavoriteMovies":[],"Username":"admintest","Password":"password","Email":"user@gmail.com","Birthday":{"$date":"1970-01-21T00:00:00.000Z"},"__v":0}
