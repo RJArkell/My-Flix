@@ -31,14 +31,14 @@ var movieSchema = mongoose.Schema({
 
 //Autopopulate the genre and director fields for movies//
 var autoPopulateGenre = function(next) {
-  this.populate('Genre');
+  this.populate('Genre'),
   this.populate('Director');
   next();
 };
 
 movieSchema.
   pre('find', autoPopulateGenre).
-  pre('findOne', autoPopulateGenre);
+  pre('findOne', autoPopulateGenre),
   pre('find', autoPopulateDirector).
   pre('findOne', autoPopulateDirector);
 
