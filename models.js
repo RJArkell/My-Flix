@@ -30,17 +30,14 @@ var movieSchema = mongoose.Schema({
 });
 
 //Autopopulate the genre and director fields for movies//
-var autoPopulateGenre = function(next) {
-  this.populate('Genre'),
-  this.populate('Director');
+var autoPopulateMovies = function(next) {
+  this.populate('Genre', 'Director');
   next();
 };
 
 movieSchema.
-  pre('find', autoPopulateGenre).
-  pre('findOne', autoPopulateGenre),
-  pre('find', autoPopulateDirector).
-  pre('findOne', autoPopulateDirector);
+  pre('find', autoPopulateMovies).
+  pre('findOne', autoPopulateMovies);
 
 //Schema for users//
 var userSchema = mongoose.Schema({
