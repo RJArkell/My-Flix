@@ -13,7 +13,7 @@ export class MainView extends React.Component {
     };
   }
   componentDidMount() {
-    axios.get('<https://edge-of-umbra.herokuapp.com/movies>')
+    axios.get('https://edge-of-umbra.herokuapp.com/movies')
       .then(response => {
         this.setState({
           movies: response.data

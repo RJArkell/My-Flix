@@ -33551,7 +33551,9 @@ function (_React$Component) {
   _createClass(MovieView, [{
     key: "render",
     value: function render() {
-      var movie = this.props.movie;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          _onClick = _this$props.onClick;
       if (!movie) return null;
       return _react.default.createElement("div", {
         className: "movie-view"
@@ -33582,7 +33584,11 @@ function (_React$Component) {
         className: "label"
       }, "Director: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Name)));
+      }, movie.Director.Name)), _react.default.createElement("button", {
+        onClick: function onClick() {
+          return _onClick();
+        }
+      }, "Return to Main"));
     }
   }]);
 
@@ -33649,7 +33655,7 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      _axios.default.get('<https://edge-of-umbra.herokuapp.com/movies>').then(function (response) {
+      _axios.default.get('https://edge-of-umbra.herokuapp.com/movies').then(function (response) {
         _this2.setState({
           movies: response.data
         });
@@ -33850,7 +33856,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51308" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52800" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
