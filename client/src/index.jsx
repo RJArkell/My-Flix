@@ -5,7 +5,7 @@ import { MainView } from './components/main-view/main-view';
 
 import './index.scss';
 
-class MyFlixApplication extends React.Component {
+class EdgeofUmbra extends React.Component {
   render() {
     return <MainView />;
   }
@@ -13,4 +13,4 @@ class MyFlixApplication extends React.Component {
 
 const container = document.getElementsByClassName('app-container')[0];
 
-ReactDOM.render(React.createElement(MyFlixApplication), container);
+ReactDOM.render(React.createElement(EdgeofUmbra), container);
