@@ -38,8 +38,8 @@ export function RegistrationView(props) {
       <Form.Group controlId="regEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control
-          type="text"
-          placeholder="Email"
+          type="email"
+          placeholder="example@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
