@@ -71,6 +71,7 @@ export class MainView extends React.Component {
                 <NavDropdown.Item href="#action/3.3">Thriller</NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="#link">About</Nav.Link>
+              <Nav.Link href="#link">Login</Nav.Link>
             </Nav>
             <Form inline>
               <FormControl type="text" placeholder="Titles, directors, etc" className="mr-sm-2" />

@@ -43043,7 +43043,9 @@ function (_React$Component) {
         href: "#action/3.3"
       }, "Thriller")), _react.default.createElement(_Nav.default.Link, {
         href: "#link"
-      }, "About")), _react.default.createElement(_Form.default, {
+      }, "About"), _react.default.createElement(_Nav.default.Link, {
+        href: "#link"
+      }, "Login")), _react.default.createElement(_Form.default, {
         inline: true
       }, _react.default.createElement(_FormControl.default, {
         type: "text",
