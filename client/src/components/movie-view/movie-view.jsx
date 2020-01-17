@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
+import { Link } from "react-router-dom";
 import './movie-view.scss'
 
 export class MovieView extends React.Component {
@@ -39,7 +40,9 @@ export class MovieView extends React.Component {
                   <span className="label">Description: </span>
                   <span className="value">{movie.Description}</span>
                 </div>
-                <Button variant="primary" onClick={() => onClick()}>Return</Button>
+                <Link to={`/`}>
+                  <Button variant="primary">Return</Button>
+                </Link>
               </Col>
             </Row>
           </Container>
