@@ -5,7 +5,8 @@ const express = require('express'),
   mongoose = require('mongoose'),
   cors = require('cors'),
   Models = require('./models.js'),
-  passport = require('passport');
+  passport = require('passport'),
+  { check, validationResult } = require('express-validator');
 require('./passport');
 
 //Imported models//
@@ -17,19 +18,16 @@ const Movies = Models.Movie,
 //Connect Mongoose to database//
 //mongoose.connect('mongodb://localhost:27017/EdgeOfUmbra', {useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
 mongoose.connect('mongodb+srv://Admin:reaver3@arnketel-69akm.azure.mongodb.net/EdgeOfUmbra?retryWrites=true&w=majority', { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true });
-//Body-parser//
-app.use(bodyParser.json());
 //File retrieving from public folder//
 app.use(express.static('public'));
 //Info logging//
 app.use(morgan('common'));
-//Authentication//
-var auth = require('./auth')(app);
+//Body-parser//
+app.use(bodyParser.json());
 //Cross-Origin Resource Sharing//
 app.use(cors());
-
-//Express-Validator//
-const { check, validationResult } = require('express-validator');
+//Authentication//
+var auth = require('./auth')(app);
 
 app.get("/", (req, res) => {
   res.send("Edge of Umbra: A database of Science-Fiction, Horror, and Thriller movies");
