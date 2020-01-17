@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from 'react-bootstrap/Card';
@@ -10,8 +11,17 @@ export function LoginView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
-    props.onLoggedIn(username)
+    axios.post('https://edge-of-umbra.herokuapp.com', {
+      Username: username,
+      Password: password
+    })
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(e => {
+        console.log('User does not exist')
+      });
   };
 
   return (
