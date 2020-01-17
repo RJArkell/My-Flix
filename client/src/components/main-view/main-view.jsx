@@ -28,8 +28,10 @@ export class MainView extends React.Component {
     };
   }
 
-  componentDidMount() {
-    axios.get('https://edge-of-umbra.herokuapp.com/movies')
+  getMovies(token) {
+    axios.get('https://edge-of-umbra.herokuapp.com/movies', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then(response => {
         this.setState({
           movies: response.data
@@ -40,17 +42,24 @@ export class MainView extends React.Component {
       });
   }
 
+
   onMovieClick(movie) {
     this.setState({
       selectedMovie: movie
     });
   }
 
-  onLoggedIn(user) {
+
+  onLoggedIn(authData) {
+    console.log(authData);
     this.setState({
-      user
+      user: authData.user.Username
     });
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    this.getMovies(authData.token);
   }
+
 
   render() {
     const { movies, selectedMovie, user } = this.state;

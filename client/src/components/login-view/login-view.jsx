@@ -11,7 +11,7 @@ export function LoginView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://edge-of-umbra.herokuapp.com', {
+    axios.post('https://edge-of-umbra.herokuapp.com/login', {
       Username: username,
       Password: password
     })
@@ -25,7 +25,7 @@ export function LoginView(props) {
   };
 
   return (
-    <Card style={{ width: '25%' }}>
+    <Card style={{ width: '30%' }}>
       < Card.Body >
         <Card.Title><h1>Edge of Umbra</h1></Card.Title>
         <Card.Text>Welcome back, please enter your login information.</Card.Text>
