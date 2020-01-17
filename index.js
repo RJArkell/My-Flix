@@ -27,6 +27,7 @@ app.use(morgan('common'));
 var auth = require('./auth')(app);
 //Cross-Origin Resource Sharing//
 app.use(cors());
+app.use('/login', authRouter)
 
 //Express-Validator//
 const { check, validationResult } = require('express-validator');
