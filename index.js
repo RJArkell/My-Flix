@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 });
 
 //Get list of movies//
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
     .then((movies) => { res.status(201).json(movies) })
     .catch((err) => {
@@ -45,7 +45,7 @@ app.get('/movies', (req, res) => {
     });
 });
 //Get movie info//
-app.get('/movies/:Title', (req, res) => {
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => { res.json(movie) })
     .catch((err) => {
@@ -54,7 +54,7 @@ app.get('/movies/:Title', (req, res) => {
     });
 });
 //Get list of genres//
-app.get('/genres', (req, res) => {
+app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) => {
   Genres.find()
     .then((genres) => { res.status(201).json(genres) })
     .catch((err) => {
@@ -63,7 +63,7 @@ app.get('/genres', (req, res) => {
     });
 });
 //Get genre info by name//
-app.get('/genres/:Name', (req, res) => {
+app.get('/genres/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
   Genres.findOne({ Name: req.params.Name })
     .then((genre) => { res.json(genre) })
     .catch((err) => {
@@ -72,7 +72,7 @@ app.get('/genres/:Name', (req, res) => {
     });
 });
 //Get list of directors//
-app.get('/directors', (req, res) => {
+app.get('/directors', passport.authenticate('jwt', { session: false }), (req, res) => {
   Directors.find()
     .then((directors) => { res.status(201).json(directors) })
     .catch((err) => {
@@ -90,7 +90,7 @@ app.get('/directors/:Name', (req, res) => {
     });
 });
 //Get list of users//
-app.get('/users', (req, res) => {
+app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.find()
     .then((users) => { res.status(201).json(users) })
     .catch((err) => {
