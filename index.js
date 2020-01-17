@@ -27,6 +27,23 @@ app.use(morgan('common'));
 var auth = require('./auth')(app);
 //Cross-Origin Resource Sharing//
 app.use(cors());
+var allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // if specific origin isn't found on list of allowed origins
+        var message =
+          'The CORS policy for this application doesn´t allow access from origin' +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    }
+  })
+);
+
 //Express-Validator//
 const { check, validationResult } = require('express-validator');
 
