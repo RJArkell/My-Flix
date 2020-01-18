@@ -7,10 +7,10 @@ import './movie-card.scss'
 
 export class MovieCard extends React.Component {
   render() {
-    const { movie, onClick } = this.props;
+    const { movie } = this.props;
 
     return (
-      <Card style={{ height: '100%', width: '100%' }}>
+      <Card style={{ height: '100%' }}>
         <Card.Img variant='top' src={movie.ImagePath} />
         <Card.Body>
           <Card.Title>{movie.Title}</Card.Title>
@@ -31,5 +31,4 @@ MovieCard.propTypes = {
     Description: PropTypes.string.isRequired,
     ImagePath: PropTypes.string.isRequired
   }).isRequired,
-  onClick: PropTypes.func.isRequired
 };

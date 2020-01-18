@@ -6,7 +6,6 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -16,6 +15,8 @@ import { RegistrationView } from "../registration-view/registration-view";
 import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { GenreView } from '../genre-view/genre-view';
+import { DirectorView } from '../director-view/director-view';
 
 export class MainView extends React.Component {
   constructor() {
@@ -60,7 +61,6 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
   }
 
-
   render() {
     const { movies, user } = this.state;
     if (!movies) return <div className="main-view" />;
@@ -72,17 +72,11 @@ export class MainView extends React.Component {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link href="#home">Movies</Nav.Link>
-                <Nav.Link href="#link">Directors</Nav.Link>
-                <NavDropdown title="Genres" id="genre-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Science-Fiction</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Horror</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Thriller</NavDropdown.Item>
-                </NavDropdown>
-                <Nav.Link href="#link">About</Nav.Link>
+                <Nav.Link href="/">Movies</Nav.Link>
+                <Nav.Link href="/">Profile</Nav.Link>
               </Nav>
               <Form inline>
-                <FormControl type="text" placeholder="Titles, directors, etc" className="mr-sm-2" />
+                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                 <Button variant="outline-light">Search</Button>
               </Form>
             </Navbar.Collapse>
@@ -96,12 +90,19 @@ export class MainView extends React.Component {
                     <MovieCard key={m._id} movie={m} />
                   </Col>
                 )
-              }
-              } />
+              }} />
               <Route path="/register" render={() => <RegistrationView />} />
               <Route path="/movies/:movieId" render={({ match }) =>
                 <MovieView movie={movies.find(m => m._id === match.params.movieId)} />
               } />
+              <Route path="/genres/:name" render={({ match }) => {
+                if (!movies || !movies.length) return <div className="main-view" />;
+                return <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} />
+              }} />
+              <Route path="/directors/:name" render={({ match }) => {
+                if (!movies) return <div className="main-view" />;
+                return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
+              }} />
             </Row>
           </Container>
         </div>
