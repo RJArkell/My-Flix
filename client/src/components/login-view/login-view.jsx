@@ -3,6 +3,7 @@ import axios from 'axios';
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from 'react-bootstrap/Card';
+import { Link } from "react-router-dom";
 import './login-view.scss'
 
 export function LoginView(props) {
@@ -25,7 +26,7 @@ export function LoginView(props) {
   };
 
   return (
-    <Card style={{ width: '30%' }}>
+    <Card style={{ width: '40%' }}>
       < Card.Body >
         <Card.Title><h1>Edge of Umbra</h1></Card.Title>
         <Card.Text>Welcome back, please enter your login information.</Card.Text>
@@ -49,7 +50,9 @@ export function LoginView(props) {
             />
           </Form.Group>
           <Button variant="primary" type="submit" onClick={handleSubmit}>Submit</Button>
-          <Button variant="secondary" onClick={handleSubmit}>Register new account</Button>
+          <Link to={`/register`}>
+            <Button variant="secondary">Register new account</Button>
+          </Link>
         </Form>
       </Card.Body >
     </Card>

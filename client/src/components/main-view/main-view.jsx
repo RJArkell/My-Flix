@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -16,6 +17,7 @@ import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { GenreView } from '../genre-view/genre-view';
+import { ProfileView } from '../profile-view/profile-view';
 import { DirectorView } from '../director-view/director-view';
 
 export class MainView extends React.Component {
@@ -61,6 +63,15 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
   }
 
+  onLogoutClick() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.open('/', '_self');
+    this.setState({
+      user: null
+    });
+  }
+
   render() {
     const { movies, user } = this.state;
     if (!movies) return <div className="main-view" />;
@@ -73,7 +84,10 @@ export class MainView extends React.Component {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
                 <Nav.Link href="/">Movies</Nav.Link>
-                <Nav.Link href="/">Profile</Nav.Link>
+                <NavDropdown title={user} id="basic-nav-dropdown">
+                  <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => this.onLogoutClick()}>Logout</NavDropdown.Item>
+                </NavDropdown>
               </Nav>
               <Form inline>
                 <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -91,7 +105,8 @@ export class MainView extends React.Component {
                   </Col>
                 )
               }} />
-              <Route path="/register" render={() => <RegistrationView />} />
+              <Route exact path="/register" render={() => <RegistrationView />} />
+              <Route exact path="/login" render={() => <LoginView />} />
               <Route path="/movies/:movieId" render={({ match }) =>
                 <MovieView movie={movies.find(m => m._id === match.params.movieId)} />
               } />
@@ -103,6 +118,7 @@ export class MainView extends React.Component {
                 if (!movies) return <div className="main-view" />;
                 return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
               }} />
+              <Route exact path="/profile" render={() => <ProfileView />} />
             </Row>
           </Container>
         </div>
