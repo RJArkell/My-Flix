@@ -18,6 +18,7 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
+import { ProfileUpdateView } from '../profile-view/profile-update-view';
 import { DirectorView } from '../director-view/director-view';
 
 export class MainView extends React.Component {
@@ -79,7 +80,7 @@ export class MainView extends React.Component {
       <Router>
         <div className="main-view">
           <Navbar bg="dark" variant="dark" expand="md" sticky="top">
-            <Navbar.Brand href="#home">Edge of Umbra</Navbar.Brand>
+            <Navbar.Brand href="/">Edge of Umbra</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
@@ -119,6 +120,7 @@ export class MainView extends React.Component {
                 return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
               }} />
               <Route exact path="/profile" render={() => <ProfileView />} />
+              <Route exact path="/profile/update" render={() => <ProfileUpdateView />} />
             </Row>
           </Container>
         </div>

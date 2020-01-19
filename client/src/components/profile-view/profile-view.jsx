@@ -60,7 +60,7 @@ export class ProfileView extends React.Component {
             <Link to={`/`}>
               <Button variant="primary">Return</Button>
             </Link>
-            <Link to={'/'}>
+            <Link to={'/profile/update'}>
               <Button variant='secondary'>Update profile</Button>
             </Link>
           </Card.Body >
