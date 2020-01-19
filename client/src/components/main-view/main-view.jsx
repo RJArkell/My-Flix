@@ -34,9 +34,9 @@ export class MainView extends React.Component {
     axios.get('https://edge-of-umbra.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` }
     })
-      .then(response => {
+      .then(res => {
         this.setState({
-          movies: response.data
+          movies: res.data
         });
       })
       .catch(function (error) {
@@ -64,7 +64,7 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
   }
 
-  onLogoutClick() {
+  onLoggedOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     window.open('/', '_self');
@@ -87,7 +87,7 @@ export class MainView extends React.Component {
                 <Nav.Link href="/">Movies</Nav.Link>
                 <NavDropdown title={user} id="basic-nav-dropdown">
                   <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                  <NavDropdown.Item onClick={() => this.onLogoutClick()}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => this.onLoggedOut()}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
               <Form inline>

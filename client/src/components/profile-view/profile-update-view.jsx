@@ -33,7 +33,7 @@ export function ProfileUpdateView(props) {
       })
       .catch(e => {
         console.log(username);
-        alert('error updating user');
+        alert('Error updating profile');
       });
   };
 
