@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 import Button from "react-bootstrap/Button";
-import Card from 'react-bootstrap/Card';
+import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
-import './profile-view.scss'
+import "./profile-view.scss"
 
 export function ProfileUpdateView(props) {
   const [username, setUsername] = useState('');
@@ -15,7 +15,7 @@ export function ProfileUpdateView(props) {
   const handleUpdate = (e) => {
     e.preventDefault();
     console.log();
-    axios.put(`https://edge-of-umbra.herokuapp.com/users/${localStorage.getItem('user')}`, {
+    axios.put(`https://edge-of-umbra.herokuapp.com/users/${localStorage.getItem("user")}`, {
       Username: username,
       Password: password,
       Birthday: birthday,
@@ -26,30 +26,30 @@ export function ProfileUpdateView(props) {
       .then(res => {
         const data = res.data;
         console.log(data);
-        alert('Profile updated, please login again');
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.open('/', '_self');
+        alert("Profile updated, please login again");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.open("/", "_self");
       })
       .catch(e => {
         console.log(username);
-        alert('Error updating profile');
+        alert("Error updating profile");
       });
   };
 
   const handleDelete = (e) => {
     e.preventDefault();
     axios.delete(`https://edge-of-umbra.herokuapp.com/users/${localStorage.getItem('user')}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     })
       .then(res => {
-        alert('Your account has been deleted');
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.open('/', '_self');
+        alert("Your account has been deleted");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.open("/", "_self");
       })
       .catch(e => {
-        alert('Error deleting the account');
+        alert("Error deleting the account");
       });
   }
 

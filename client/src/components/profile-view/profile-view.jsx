@@ -3,17 +3,13 @@ import axios from 'axios';
 import Button from "react-bootstrap/Button";
 import Card from 'react-bootstrap/Card';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 import './profile-view.scss'
 
 export class ProfileView extends React.Component {
   constructor() {
     super();
-    this.state = {
-      username: null,
-      email: null,
-      birthday: null,
-      favoriteMovies: []
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -41,38 +37,19 @@ export class ProfileView extends React.Component {
       });
   }
 
-  deleteMovie(event, favoriteMovie) {
-    event.preventDefault();
-    let username = localStorage.getItem('user');
-    axios.delete(`https://edge-of-umbra.herokuapp.com/users/${username}/favoritemovies/${favoriteMovie}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    })
-      .then(res => {
-        document.location.reload(true);
-      })
-      .then(res => {
-        alert('Movie successfully deleted from favorites');
-      })
-
-      .catch(e => {
-        alert('Movie could not be deleted from favorites ' + e)
-      });
-  }
-
   render() {
-    const { birthday, email, username, favoriteMovies } = this.state;
     return (
       <div className="profile-view">
         <Card>
           <Card.Body>
-            <Card.Title><h1>{username}</h1></Card.Title>
+            <Card.Title><h1>{this.state.username}</h1></Card.Title>
             <div className="user-born">
               <span className="label">Born: </span>
-              <span className="value">{birthday && birthday.slice(0, 10)}</span>
+              <span className="value">{this.state.birthday && this.state.birthday.slice(0, 10)}</span>
             </div>
             <div className="user-email">
               <span className="label">Email: </span>
-              <span className="value">{email}</span>
+              <span className="value">{this.state.email}</span>
             </div>
             <Link to={`/`}>
               <Button variant="primary">Return</Button>
@@ -82,16 +59,6 @@ export class ProfileView extends React.Component {
             </Link>
           </Card.Body >
         </Card>
-        <div className='favoritemovies'></div>
-        <div className='label'>Favorite Movies</div>
-        {favoriteMovies.length === 0 &&
-          <div className="value">No movies favorited</div>
-        }
-        {favoriteMovies.length > 0 &&
-          <div className="value">{favoriteMovies.map(favoriteMovie => (<p key={favoriteMovie}>
-            {JSON.parse(localStorage.getItem('movies')).find(movie => movie._id === favoriteMovie)._id}<span onClick={(event) =>
-              this.deleteMovie(event, favoriteMovie)}> Delete</span></p>))}</div>
-        }
       </div>
     );
   }

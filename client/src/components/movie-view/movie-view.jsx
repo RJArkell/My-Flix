@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 import Button from "react-bootstrap/Button";
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
-import Image from 'react-bootstrap/Image';
-import Card from 'react-bootstrap/Card';
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
+import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-import './movie-view.scss'
+import "./movie-view.scss"
 
 export class MovieView extends React.Component {
   constructor() {
@@ -45,7 +45,7 @@ export class MovieView extends React.Component {
                     <span className="label">Description: </span>
                     <span className="value">{movie.Description}</span>
                   </div>
-                  <Link to={`/`}>
+                  <Link to={"/"}>
                     <Button variant="primary">Return</Button>
                   </Link>
                 </Col>

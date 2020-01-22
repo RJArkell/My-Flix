@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
-import axios from 'axios';
+import axios from "axios";
 import Form from "react-bootstrap/Form";
-import Card from 'react-bootstrap/Card';
+import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-import './registration-view.scss'
+import "./registration-view.scss"
 
 export function RegistrationView(props) {
   const [username, setUsername] = useState('');
@@ -14,7 +14,7 @@ export function RegistrationView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://edge-of-umbra.herokuapp.com/users', {
+    axios.post("https://edge-of-umbra.herokuapp.com/users", {
       Username: username,
       Password: password,
       Email: email,
@@ -23,15 +23,15 @@ export function RegistrationView(props) {
       .then(response => {
         const data = response.data;
         console.log(data);
-        window.open('/', '_self');
+        window.open("/", "_self");
       })
       .catch(e => {
-        console.log('error registering the user')
+        console.log("error registering the user")
       });
   };
 
   return (
-    <Card style={{ width: '40%' }}>
+    <Card style={{ width: "40%" }}>
       <Card.Body>
         <Card.Title><h1>Edge of Umbra</h1></Card.Title>
         <Card.Text>Enter your information to create a new account</Card.Text>
