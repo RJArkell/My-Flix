@@ -6,6 +6,12 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import './profile-view.scss'
 
+const mapStateToProps = state => {
+  const { movies, userData } = state;
+  return { movies, userData };
+}
+
+//{ movies: state.movies, userData: state.userData } = state;
 export class ProfileView extends React.Component {
   constructor() {
     super();
@@ -17,6 +23,18 @@ export class ProfileView extends React.Component {
     if (accessToken !== null) {
       this.getUser(accessToken);
     }
+  }
+
+  getMovies(token) {
+    axios.get("https://edge-of-umbra.herokuapp.com/movies", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => {
+        this.props.setMovies(res.data);
+      })
+      .catch(function (err) {
+        console.log('Error: ' + err);
+      });
   }
 
   getUser(token) {
@@ -38,7 +56,7 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    const { birthday, username, email, favoriteMovies } = this.state;
+    const { birthday, username, email } = this.state;
     const { movies } = this.props;
     console.log(movies);
 
@@ -63,17 +81,9 @@ export class ProfileView extends React.Component {
             </Link>
           </Card.Body >
         </Card>
-        <div className="favoriteMovies">
-          <div className="label">Favorites Movies:</div>
-          {this.props.movies.map(movie => {
-            if (movie._id === favoriteMovies.find(favoriteMovie => favoriteMovie === movie._id)) {
-              return <p key={movie._id}>{movie.Title}<Button variant='danger' size='sm' onClick={() => this.deleteFavoriteMovie(movie._id)}>Remove</Button></p>
-            } else if (!favoriteMovies) {
-              return <p>No favorites</p>
-            }
-          })}
-        </div>
       </div>
     );
   }
 }
+
+export default connect(mapStateToProps)(ProfileView);

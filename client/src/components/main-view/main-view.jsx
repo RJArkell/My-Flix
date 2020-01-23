@@ -1,16 +1,14 @@
 import React from "react";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
+
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { connect } from "react-redux";
-import { setMovies } from "../../actions/actions";
+import { setMovies, setUser } from "../../actions/actions";
 import "./main-view.scss"
 
 import MoviesList from "../movies-list/movies-list";
@@ -30,6 +28,15 @@ export class MainView extends React.Component {
     };
   }
 
+  onLoggedIn(authData) {
+    this.setState({
+      user: authData.user.Username
+    });
+    localStorage.setItem("token", authData.token);
+    localStorage.setItem("user", authData.user.Username);
+    this.getMovies(authData.token);
+  }
+
   getMovies(token) {
     axios.get("https://edge-of-umbra.herokuapp.com/movies", {
       headers: { Authorization: `Bearer ${token}` }
@@ -38,7 +45,19 @@ export class MainView extends React.Component {
         this.props.setMovies(res.data);
       })
       .catch(function (err) {
-        console.log(err);
+        console.log('Error: ' + err);
+      });
+  }
+
+  getUserData(token) {
+    axios.get(`https://edge-of-umbra.herokuapp.com/users/${localStorage.getItem("user")}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => {
+        this.props.setUser(res.data);
+      })
+      .catch(function (err) {
+        console.log("Error: " + err);
       });
   }
 
@@ -49,16 +68,8 @@ export class MainView extends React.Component {
         user: localStorage.getItem("user")
       });
       this.getMovies(accessToken);
+      this.getUserData(accessToken);
     }
-  }
-
-  onLoggedIn(authData) {
-    this.setState({
-      user: authData.user.Username
-    });
-    localStorage.setItem("token", authData.token);
-    localStorage.setItem("user", authData.user.Username);
-    this.getMovies(authData.token);
   }
 
   onLoggedOut() {
@@ -88,10 +99,6 @@ export class MainView extends React.Component {
                   <NavDropdown.Item onClick={() => this.onLoggedOut()}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                <Button variant="outline-light">Search</Button>
-              </Form>
             </Navbar.Collapse>
           </Navbar>
           <Container>
@@ -124,7 +131,12 @@ export class MainView extends React.Component {
 }
 
 let mapStateToProps = state => {
-  return { movies: state.movies }
+  return { movies: state.movies, userData: state.userData }
 }
 
-export default connect(mapStateToProps, { setMovies })(MainView);
+const mapDispatchToProps = {
+  setMovies,
+  setUser
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainView);
