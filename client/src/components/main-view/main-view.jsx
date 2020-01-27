@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { setMovies, setUser } from "../../actions/actions";
 import "./main-view.scss"
 
-import MoviesList from "../movies-list/movies-list";
+import MovieList from "../movie-list/movie-list";
 import { RegistrationView } from "../registration-view/registration-view";
 import { LoginView } from "../login-view/login-view";
 import { MovieView } from "../movie-view/movie-view";
@@ -105,7 +105,7 @@ export class MainView extends React.Component {
             <Row>
               <Route exact path="/" render={() => {
                 if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-                return <MoviesList movies={movies} />;
+                return <MovieList movies={movies} />;
               }} />
               <Route exact path="/register" render={() => <RegistrationView />} />
               <Route exact path="/login" render={() => <LoginView />} />
@@ -120,7 +120,7 @@ export class MainView extends React.Component {
                 if (!movies) return <div className="main-view" />;
                 return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
               }} />
-              <Route exact path="/profile" render={() => <ProfileView />} />
+              <Route exact path="/profile" render={() => <ProfileView movies={movies} />} />
               <Route exact path="/profile/update" render={() => <ProfileUpdateView />} />
             </Row>
           </Container>
