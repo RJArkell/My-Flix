@@ -12,7 +12,6 @@ function VisibilityFilterInput(props) {
     <Form.Group controlId="formBasicFilterInput" className="mb-4">
       <Form.Control className="search" onChange={e => props.setFilter(e.target.value)} value={props.visibilityFilter.trim()} placeholder="Search..." />
     </Form.Group>
-
   </div>
 
 }

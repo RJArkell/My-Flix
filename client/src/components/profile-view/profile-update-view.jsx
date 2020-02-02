@@ -29,7 +29,7 @@ export function ProfileUpdateView(props) {
         alert("Profile updated, please login again");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        window.open("/", "_self");
+        window.open("/client", "_self");
       })
       .catch(e => {
         console.log(username);

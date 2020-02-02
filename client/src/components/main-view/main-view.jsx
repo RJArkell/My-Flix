@@ -86,7 +86,7 @@ export class MainView extends React.Component {
     let { user } = this.state;
     if (!movies) return <div className="main-view" />;
     return (
-      <Router>
+      <Router basename="/client">
         <div className="main-view">
           <Navbar bg="dark" variant="dark" expand="md" sticky="top">
             <Navbar.Brand href="/">Edge of Umbra</Navbar.Brand>

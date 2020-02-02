@@ -6,6 +6,7 @@ const express = require('express'),
   cors = require('cors'),
   Models = require('./models.js'),
   passport = require('passport'),
+  path = require("path"),
   { check, validationResult } = require('express-validator');
 require('./passport');
 
@@ -20,6 +21,10 @@ const Movies = Models.Movie,
 mongoose.connect('mongodb+srv://Admin:reaver3@arnketel-69akm.azure.mongodb.net/EdgeOfUmbra?retryWrites=true&w=majority', { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true });
 //File retrieving from public folder//
 app.use(express.static('public'));
+app.use("/client", express.static(path.join(__dirname, "client", "dist")));
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 //Info logging//
 app.use(morgan('common'));
 //Body-parser//

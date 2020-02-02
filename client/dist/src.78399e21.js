@@ -48036,8 +48036,6 @@ var _react = _interopRequireDefault(require("react"));
 
 var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
 
-var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
-
 var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
 
 var _reactRedux = require("react-redux");
@@ -48071,28 +48069,26 @@ function MovieList(props) {
   });
   return _react.default.createElement("div", {
     className: "movie-list"
-  }, _react.default.createElement(_visibilityFilterInput.default, {
+  }, _react.default.createElement(_Row.default, null, _react.default.createElement(_visibilityFilterInput.default, {
     visibilityFilter: visibilityFilter
-  }), filteredMovies.map(function (m) {
-    return _react.default.createElement(_Container.default, null, _react.default.createElement(_Row.default, null, movies.map(function (m) {
-      return _react.default.createElement(_Col.default, {
-        key: m._id,
-        xs: 12,
-        sm: 6,
-        md: 4,
-        lg: 3
-      }, _react.default.createElement(_movieCard.MovieCard, {
-        key: m.id,
-        movie: m
-      }));
-    })));
-  }), ";");
+  })), _react.default.createElement(_Row.default, null, filteredMovies.map(function (m) {
+    return _react.default.createElement(_Col.default, {
+      key: m._id,
+      xs: 12,
+      sm: 6,
+      md: 4,
+      lg: 3
+    }, _react.default.createElement(_movieCard.MovieCard, {
+      key: m._id,
+      movie: m
+    }));
+  })));
 }
 
 var _default = (0, _reactRedux.connect)(mapStateToProps)(MovieList);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-redux":"../node_modules/react-redux/es/index.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-redux":"../node_modules/react-redux/es/index.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -49448,7 +49444,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60025" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50119" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
