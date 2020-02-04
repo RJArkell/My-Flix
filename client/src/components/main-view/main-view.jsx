@@ -103,12 +103,12 @@ export class MainView extends React.Component {
           </Navbar>
           <Container>
             <Row>
-              <Route exact path="/" render={() => {
+              <Route path="/" render={() => {
                 if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
                 return <MovieList movies={movies} />;
               }} />
-              <Route exact path="/register" render={() => <RegistrationView />} />
-              <Route exact path="/login" render={() => <LoginView />} />
+              <Route path="/register" render={() => <RegistrationView />} />
+              <Route path="/login" render={() => <LoginView />} />
               <Route path="/movies/:movieId" render={({ match }) =>
                 <MovieView movie={movies.find(m => m._id === match.params.movieId)} />
               } />
@@ -120,8 +120,8 @@ export class MainView extends React.Component {
                 if (!movies) return <div className="main-view" />;
                 return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
               }} />
-              <Route exact path="/profile" render={() => <ProfileView movies={movies} />} />
-              <Route exact path="/profile/update" render={() => <ProfileUpdateView />} />
+              <Route path="/profile" render={() => <ProfileView movies={movies} />} />
+              <Route path="/profile/update" render={() => <ProfileUpdateView />} />
             </Row>
           </Container>
         </div>
