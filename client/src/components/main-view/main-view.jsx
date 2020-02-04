@@ -93,9 +93,9 @@ export class MainView extends React.Component {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="main-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link href="/">Movies</Nav.Link>
+                <Nav.Link href="/client">Movies</Nav.Link>
                 <NavDropdown title={user} id="profile-nav-dropdown">
-                  <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                  <NavDropdown.Item href="/client/profile">Profile</NavDropdown.Item>
                   <NavDropdown.Item onClick={() => this.onLoggedOut()}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
