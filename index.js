@@ -16,7 +16,9 @@ const Movies = Models.Movie,
   Genres = Models.Genre,
   Directors = Models.Director;
 
-//Connect Mongoose to database//
+/** 
+ * Connect Mongoose to database
+*/
 //mongoose.connect('mongodb://localhost:27017/EdgeOfUmbra', {useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
 mongoose.connect('mongodb+srv://Admin:reaver3@arnketel-69akm.azure.mongodb.net/EdgeOfUmbra?retryWrites=true&w=majority', { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true });
 //File retrieving from public folder//
@@ -37,8 +39,10 @@ var auth = require('./auth')(app);
 app.get("/", (req, res) => {
   res.send("Edge of Umbra: A database of Science-Fiction, Horror, and Thriller movies");
 });
-
-//Get list of movies//
+/**
+  * Get list of movies
+  * @function GET /movies
+  */
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
     .then((movies) => { res.status(201).json(movies) })
@@ -47,7 +51,10 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
       res.status(500).send("Error: " + err);
     });
 });
-//Get movie info//
+/**
+* Get movie info
+* @function GET /movies/:Title
+*/
 app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => { res.json(movie) })
@@ -56,7 +63,10 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
       res.status(500).send("Error: " + err);
     });
 });
-//Get list of genres//
+/**
+  * Get list of genres
+  * @function GET /genres
+  */
 app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) => {
   Genres.find()
     .then((genres) => { res.status(201).json(genres) })
@@ -65,7 +75,10 @@ app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) 
       res.status(500).send("Error: " + err);
     });
 });
-//Get genre info by name//
+/**
+  * Get genre info
+  * @function GET /genres/:Name
+  */
 app.get('/genres/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
   Genres.findOne({ Name: req.params.Name })
     .then((genre) => { res.json(genre) })
@@ -74,7 +87,10 @@ app.get('/genres/:Name', passport.authenticate('jwt', { session: false }), (req,
       res.status(500).send("Error: " + err);
     });
 });
-//Get list of directors//
+/**
+  * Get list of directors
+  * @function GET /directors
+  */
 app.get('/directors', passport.authenticate('jwt', { session: false }), (req, res) => {
   Directors.find()
     .then((directors) => { res.status(201).json(directors) })
@@ -83,7 +99,10 @@ app.get('/directors', passport.authenticate('jwt', { session: false }), (req, re
       res.status(500).send("Error: " + err);
     });
 });
-//Get director by name//
+/**
+  * Get director info
+  * @function GET /directors/:Name
+  */
 app.get('/directors/:Name', (req, res) => {
   Directors.findOne({ Name: req.params.Name })
     .then((director) => { res.json(director) })
@@ -92,7 +111,10 @@ app.get('/directors/:Name', (req, res) => {
       res.status(500).send("Error: " + err);
     });
 });
-//Get list of users//
+/**
+  * Get list of users
+  * @function GET /users
+  */
 app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.find()
     .then((users) => { res.status(201).json(users) })
@@ -101,7 +123,10 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
       res.status(500).send("Error: " + err);
     });
 });
-//Get user info by username//
+/**
+  * Get user profile
+  * @function GET /users/:Username
+  */
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => { res.json(user) })
@@ -111,7 +136,10 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
     });
 });
 
-//Create user//
+/**
+  * Create new user profile
+  * @function POST /users
+  */
 app.post('/users', [
   check('Username', "Username is required").isLength({ min: 5 }),
   check('Username', "Username contains non-alphanumeric characters - not allowed.").isAlphanumeric(),
@@ -143,7 +171,10 @@ app.post('/users', [
         res.status(500).send("Error: " + err);
       });
   });
-//Update user info//
+/**
+  * Edit user info
+  * @function PUT /users/:Username
+  */
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
   check('Username', "Username is required").isLength({ min: 5 }),
   check('Username', "Username contains non-alphanumeric characters - not allowed.").isAlphanumeric(),
@@ -171,7 +202,10 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
         }
       })
   });
-//Delete user by username//
+/**
+  * Delete user profile
+  * @function DELETE /users/:username
+  */
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
@@ -185,7 +219,10 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
     });
 });
 
-//Add favorite movie//
+/**
+  * Add movie to favorites list
+  * @function POST /users/:Username/FavoriteMovies/:MovieID
+  */
 app.post('/users/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
     $push: { FavoriteMovies: req.params.MovieID }
@@ -200,7 +237,10 @@ app.post('/users/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt'
       }
     })
 });
-//Remove favorite movie//
+/**
+  * Delete movie from favorites list
+  * @function DELETE /users/:username/FavoriteMovies/:MovieID
+  */
 app.delete('/users/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
     $pull: { FavoriteMovies: req.params.MovieID }
