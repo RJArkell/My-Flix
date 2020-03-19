@@ -55,7 +55,7 @@ export function ProfileUpdateView(props) {
 
   return (
     <div className="profile-update-view">
-      <Card>
+      <Card style={{ backgroundColor: 'lightgrey' }}>
         <Card.Body>
           <Card.Text>Please update all fields of your profile</Card.Text>
           <Form>

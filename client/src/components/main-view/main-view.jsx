@@ -86,8 +86,8 @@ export class MainView extends React.Component {
     let { user } = this.state;
     if (!movies) return <div className="main-view" />;
     return (
-      <Router basename="/client">
-        <div className="main-view">
+      <Router basename="/client" >
+        <div className="main-view min-vh-100" style={{ backgroundColor: 'black', height: "100%" }}>
           <Navbar bg="dark" variant="dark" expand="md" sticky="top">
             <Navbar.Brand href="/">Edge of Umbra</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -103,7 +103,7 @@ export class MainView extends React.Component {
           </Navbar>
           <Container>
             <Row>
-              <Route path="/" render={() => {
+              <Route exact path="/" render={() => {
                 if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
                 return <MovieList movies={movies} />;
               }} />

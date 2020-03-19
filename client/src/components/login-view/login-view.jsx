@@ -26,7 +26,7 @@ export function LoginView(props) {
   };
 
   return (
-    <Card style={{ width: '40%' }}>
+    <Card style={{ width: '40%', backgroundColor: 'grey' }}>
       < Card.Body >
         <Card.Title><h1>Edge of Umbra</h1></Card.Title>
         <Card.Text>Welcome back, please enter your login information.</Card.Text>

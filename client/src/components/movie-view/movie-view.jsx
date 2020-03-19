@@ -18,7 +18,7 @@ export class MovieView extends React.Component {
     if (!movie) return null;
     return (
       <div className="movie-view">
-        <Card>
+        <Card style={{ backgroundColor: 'lightgrey' }}>
           < Card.Body >
             <Container fluid>
               <Row>

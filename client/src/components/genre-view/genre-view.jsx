@@ -14,7 +14,7 @@ export class GenreView extends React.Component {
     if (!genre) return null;
     return (
       <div className="genre-view">
-        <Card>
+        <Card style={{ backgroundColor: 'lightgrey' }}>
           < Card.Body >
             <div className="genre-name">
               <h1><span className="value">{genre.Name}</span></h1>

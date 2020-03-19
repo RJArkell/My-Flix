@@ -57,7 +57,7 @@ export class ProfileView extends React.Component {
     return (
       <div className="profile-view">
         <Row>
-          <Card>
+          <Card style={{ backgroundColor: 'lightgrey' }}>
             <Card.Body>
               <Card.Title><h1>{username}</h1></Card.Title>
               <div className="user-born">
@@ -76,7 +76,7 @@ export class ProfileView extends React.Component {
               </Link>
             </Card.Body >
           </Card>
-          <Card>
+          <Card style={{ backgroundColor: 'lightgrey' }}>
             <Card.Body>
               <Card.Title><h1>Favorited Movies</h1></Card.Title>
               {this.props.movies.map(movie => {

@@ -31,7 +31,7 @@ export function RegistrationView(props) {
   };
 
   return (
-    <Card style={{ width: "40%" }}>
+    <Card style={{ width: "40%", backgroundColor: 'lightgrey' }}>
       <Card.Body>
         <Card.Title><h1>Edge of Umbra</h1></Card.Title>
         <Card.Text>Enter your information to create a new account</Card.Text>

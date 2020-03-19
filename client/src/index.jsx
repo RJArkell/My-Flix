@@ -11,7 +11,7 @@ const store = createStore(moviesApp);
 class EdgeofUmbra extends React.Component {
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={store} >
         <MainView />
       </Provider>
     );

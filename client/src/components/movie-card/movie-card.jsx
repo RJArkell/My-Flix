@@ -10,7 +10,7 @@ export class MovieCard extends React.Component {
     const { movie } = this.props;
 
     return (
-      <Card style={{ height: "100%" }}>
+      <Card style={{ height: "100%", backgroundColor: 'lightgrey' }}>
         <Card.Img variant="top" src={movie.ImagePath} />
         <Card.Body>
           <Card.Title>{movie.Title}</Card.Title>

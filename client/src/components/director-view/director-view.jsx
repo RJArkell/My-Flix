@@ -18,7 +18,7 @@ export class DirectorView extends React.Component {
     if (!director) return null;
     return (
       <div className="director-view">
-        <Card>
+        <Card style={{ backgroundColor: 'lightgrey' }}>
           < Card.Body >
             <Container fluid>
               <Row>
