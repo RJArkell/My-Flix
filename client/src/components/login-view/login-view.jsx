@@ -12,16 +12,18 @@ export function LoginView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(username, password)
     axios.post('https://edge-of-umbra.herokuapp.com/login', {
       Username: username,
       Password: password
     })
       .then(res => {
+        console.log(res);
         const data = res.data;
         props.onLoggedIn(data);
       })
       .catch(e => {
-        console.log('User does not exist')
+        console.log(e)
       });
   };
 
